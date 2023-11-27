@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NgChartsModule } from 'ng2-charts';
 import { WeatherComponent } from '../components/weather/weather.component'
 
 export const routes: Routes = [
@@ -8,7 +9,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), NgChartsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -2,20 +2,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { WeatherService } from '../../services/weather.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-weather',
+  templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css'],
   standalone: true,
-  template: `<div id="weatherChart"> </div>
-  `
 })
 export class WeatherComponent implements OnInit {
   identifier: string = '';
   temperatures: number[] = [];
   chart: Chart | undefined;
 
-  constructor(private weatherService: WeatherService) { }
+  constructor(private weatherService: WeatherService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.identifier = this.parseIdentifierFromUrl();
@@ -30,7 +30,7 @@ export class WeatherComponent implements OnInit {
   }
 
   private fetchWeatherData(): void {
-    this.weatherService.getWeatherData(this.identifier)
+    this.httpClient.get<any>('https://api.weather.gov/gridpoints/TOP/31,80/forecast')
       .subscribe(data => {
         this.extractTemperatures(data);
         this.createChart();
@@ -72,7 +72,7 @@ export class WeatherComponent implements OnInit {
         }
       });
     } else {
-      console.error('Canvas element with id "weatherChart" not found.');
+      console.log('Canvas element with id "weatherChart" not found.');
     }
   }
 }
